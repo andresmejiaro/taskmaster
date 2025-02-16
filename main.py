@@ -1,6 +1,15 @@
-from configParsing import parseJson, updateParsing
-import time
+from ManagedProcess import ManagedProcess
+import json
 
+def parseJson(route):
+    with open(route, "r") as file:
+        result = json.load(file)
+    return result
+
+def updateParsing(processes):
+    outJson = parseJson("conf.json")
+    for key, value in outJson.items():
+        processes[key] = ManagedProcess(value)
 
 
 def updateProcesses(processes):
