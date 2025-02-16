@@ -1,8 +1,6 @@
 from ManagedProcess import ManagedProcess
 import json
 
-
-
 def parseJson(route):
     with open(route, "r") as file:
         result = json.load(file)
