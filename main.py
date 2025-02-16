@@ -1,5 +1,4 @@
-from taskmaster_daemon import start_taskmaster
-from shell import start_shell
+from taskmaster_shell import start_shell
 import subprocess
 import time
 

@@ -14,7 +14,7 @@ class TaskMaster:
             os.remove(SOCKET_PATH)
         self.server.bind(SOCKET_PATH)
         self.server.listen(5)
-        
+
         self.updateParsing()
         for proc in self.processes.values():
             proc.launchProcess()
@@ -32,20 +32,26 @@ class TaskMaster:
             value.launchProcess()
 
     def checkStatus(self):
-        for key, proc in self.processes.items():
-            print(f"{key}: {proc.status()}")
+        status_report = {key: proc.status() for key, proc in self.processes.items()}
+        return json.dumps(status_report)
 
     def stopProcessId(self, id):
         if id in self.processes:
             self.processes[id].stopProcess()
+            return json.dumps({"status": "success", "message": f"Stopped {id}"})
+        return json.dumps({"status": "error", "message": f"Process {id} not found"})
 
     def startProcessId(self, id):
         if id in self.processes:
             self.processes[id].launchProcess()
+            return json.dumps({"status": "success", "message": f"Started {id}"})
+        return json.dumps({"status": "error", "message": f"Process {id} not found"})
 
     def restartProcessId(self, id):
         if id in self.processes:
             self.processes[id].restartProcess()
+            return json.dumps({"status": "success", "message": f"Restarted {id}"})
+        return json.dumps({"status": "error", "message": f"Process {id} not found"})
 
     def endProgram(self):
         self.server.close()
@@ -53,26 +59,23 @@ class TaskMaster:
         exit(0)
 
     def processConsole(self, command):
-        commands = command.split()
-        if not commands:
-            return
-        
-        match commands[0]:
-            case "checkStatus":
-                self.checkStatus()
-            case "stop":
-                if len(commands) > 1:
-                    self.stopProcessId(commands[1])
-            case "start":
-                if len(commands) > 1:
-                    self.startProcessId(commands[1])
-            case "restart":
-                if len(commands) > 1:
-                    self.restartProcessId(commands[1])
-            case "reloadConfig":
-                self.updateParsing()
-            case "exit":
-                self.endProgram()
+        cmd = command.get("command")
+        arg = command.get("argument")
+
+        if cmd == "STATUS":
+            return self.checkStatus()
+        elif cmd == "STOP":
+            return self.stopProcessId(arg)
+        elif cmd == "START":
+            return self.startProcessId(arg)
+        elif cmd == "RESTART":
+            return self.restartProcessId(arg)
+        elif cmd == "RELOAD":
+            self.updateParsing()
+            return json.dumps({"status": "success", "message": "Configuration reloaded"})
+        elif cmd == "EXIT":
+            self.endProgram()
+        return json.dumps({"status": "error", "message": "Unknown command"})
 
     def Loop(self):
         while True:
@@ -81,13 +84,11 @@ class TaskMaster:
             if data:
                 try:
                     command = json.loads(data.decode())
-                    if isinstance(command, str):
-                        self.processConsole(command)
-                    else:
-                        print("Invalid command format")
+                    response = self.processConsole(command)
                 except json.JSONDecodeError:
-                    print("Received invalid JSON")
-                conn.sendall(b"ACK")
+                    response = json.dumps({"status": "error", "message": "Invalid JSON"})
+                
+                conn.sendall(response.encode())
 
 
 def main():
