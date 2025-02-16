@@ -1,81 +1,99 @@
 from ManagedProcess import ManagedProcess
 import json
-import time
 import socket
 import os
 
 SOCKET_PATH = "/tmp/daemon_socket"
 
-class taskmaster():
-    def parseJson(route):
+class TaskMaster:
+    def __init__(self):
+        self.server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        self.processes = {}
+        
+        if os.path.exists(SOCKET_PATH):
+            os.remove(SOCKET_PATH)
+        self.server.bind(SOCKET_PATH)
+        self.server.listen(5)
+
+        self.updateParsing()
+        for proc in self.processes.values():
+            proc.launchProcess()
+
+    def parseJson(self, route):
         with open(route, "r") as file:
-            result = json.load(file)
-        return result
+            return json.load(file)
 
-    def updateParsing(processes):
-        outJson = parseJson("conf.json")
-        for key, value in outJson.items():
-            processes[key] = ManagedProcess(value)
+    def updateParsing(self):
+        outJson = self.parseJson("conf.json")
+        self.processes = {key: ManagedProcess(value) for key, value in outJson.items()}
 
+    def updateProcesses(self):
+        for value in self.processes.values():
+            value.launchProcess()
 
-    def updateProcesses(processes):
-        for _, value in processes:
-            value.launchPrcess()
+    def checkStatus(self):
+        status_report = {key: proc.status() for key, proc in self.processes.items()}
+        return json.dumps(status_report)
 
-    def checkStatus():
-        pass
+    def stopProcessId(self, id):
+        if id in self.processes:
+            self.processes[id].stopProcess()
+            return json.dumps({"status": "success", "message": f"Stopped {id}"})
+        return json.dumps({"status": "error", "message": f"Process {id} not found"})
 
-    def stopProcessId(id):
-        pass
+    def startProcessId(self, id):
+        if id in self.processes:
+            self.processes[id].launchProcess()
+            return json.dumps({"status": "success", "message": f"Started {id}"})
+        return json.dumps({"status": "error", "message": f"Process {id} not found"})
 
-    def endProgram():
-        pass
+    def restartProcessId(self, id):
+        if id in self.processes:
+            self.processes[id].restartProcess()
+            return json.dumps({"status": "success", "message": f"Restarted {id}"})
+        return json.dumps({"status": "error", "message": f"Process {id} not found"})
 
-    def processConsole():
-        consoleCommand = "command"
-        match consoleCommand:
-            case "checkStatus":
-                checkStatus()
-            case "stop id":
-                stopProcessId("id")
-            case "start id":
-                startProcessId("id")
-            case "restart id":
-                restartProcessId("id")
-            case "reloadConfig":
-                updateParsing()
-            case "exit":
-                endProgram()
-
-def start_taskmaster():
-
-    if os.path.exists(SOCKET_PATH):
+    def endProgram(self):
+        self.server.close()
         os.remove(SOCKET_PATH)
+        exit(0)
 
-    server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-    server.bind(SOCKET_PATH)
-    server.listen(5)
+    def processConsole(self, command):
+        cmd = command.get("command")
+        arg = command.get("argument")
 
-    processes = {}
-    updateParsing(processes)
-    for _,proc in processes.items():
-        proc.launchProcess()
-    while True:
-        conn, _ = server.accept()
-        data = conn.recv(1024)
-        if data:
-            print(f"Received: {data.decode()}")
-            conn.sendall(b"ACK")
-        conn.close()
+        if cmd == "STATUS":
+            return self.checkStatus()
+        elif cmd == "STOP":
+            return self.stopProcessId(arg)
+        elif cmd == "START":
+            return self.startProcessId(arg)
+        elif cmd == "RESTART":
+            return self.restartProcessId(arg)
+        elif cmd == "RELOAD":
+            self.updateParsing()
+            return json.dumps({"status": "success", "message": "Configuration reloaded"})
+        elif cmd == "EXIT":
+            self.endProgram()
+        return json.dumps({"status": "error", "message": "Unknown command"})
 
-        '''
-        for name , proc in processes.items():
-            proc.updateStatus()
-            print(f"Name:{name}, status {proc.status}")
-        '''
+    def Loop(self):
+        while True:
+            conn, _ = self.server.accept()
+            data = conn.recv(1024)
+            if data:
+                try:
+                    command = json.loads(data.decode())
+                    response = self.processConsole(command)
+                except json.JSONDecodeError:
+                    response = json.dumps({"status": "error", "message": "Invalid JSON"})
+                
+                conn.sendall(response.encode())
+
 
 def main():
-    start_taskmaster()
+    taskmaster = TaskMaster()
+    taskmaster.Loop()
 
-if __name__== "__main__":
+if __name__ == "__main__":
     main()

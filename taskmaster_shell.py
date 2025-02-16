@@ -3,12 +3,13 @@ import signal
 import logging
 import socket
 import sys
+import json
 
 SOCKET_PATH = "/tmp/daemon_socket"
 
 # Configure logging
 logging.basicConfig(
-    filename='taskmaster.log', 
+    filename='shell.log', 
     level=logging.INFO, 
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
@@ -26,11 +27,12 @@ class ProgramShell(cmd.Cmd):
             print(f"\033[91m[ERROR] Failed to connect to daemon: {e}\033[0m")
             sys.exit(1)
 
-    def exec_and_print(self, message):
+    def exec_and_print(self, command, arg=None):
         try:
+            message = json.dumps({"command": command, "argument": arg})
             self.client.sendall(message.encode())
             response = self.client.recv(4096).decode()
-            print(f"\033[94m{response}\033[0m")  # Blue response
+            print(f"\033[94mResponse from daemon:\033[0m {response}")  # Blue response
         except Exception as e:
             print(f"\033[91m[ERROR] Communication error: {e}\033[0m")
 
@@ -52,7 +54,7 @@ class ProgramShell(cmd.Cmd):
             self.log_and_print("error", "[ERROR] Please specify a program to start.")
         else:
             self.log_and_print("info", f"[INFO] Starting program: {arg}")
-            self.exec_and_print(f"START {arg}")
+            self.exec_and_print("START", arg)
 
     def do_stop(self, arg):
         "Stop a specific program: stop <program_name>"
@@ -60,7 +62,7 @@ class ProgramShell(cmd.Cmd):
             self.log_and_print("error", "[ERROR] Please specify a program to stop.")
         else:
             self.log_and_print("info", f"[INFO] Stopping program: {arg}")
-            self.exec_and_print(f"STOP {arg}")
+            self.exec_and_print("STOP", arg)
 
     def do_restart(self, arg):
         "Restart a specific program: restart <program_name>"
@@ -68,7 +70,7 @@ class ProgramShell(cmd.Cmd):
             self.log_and_print("error", "[ERROR] Please specify a program to restart.")
         else:
             self.log_and_print("info", f"[INFO] Restarting program: {arg}")
-            self.exec_and_print(f"RESTART {arg}")
+            self.exec_and_print("RESTART", arg)
 
     def do_reload(self, arg):
         "Reload the configuration file"
@@ -97,7 +99,8 @@ class ProgramShell(cmd.Cmd):
         self.client.close()
         sys.exit(0)
 
-if __name__ == "__main__":
+
+def start_shell():
     shell = ProgramShell()
     signal.signal(signal.SIGINT, shell.signal_handler)  # Handle Ctrl+C
     signal.signal(signal.SIGTERM, shell.signal_handler)  # Handle termination signals
