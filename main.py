@@ -1,17 +1,6 @@
-from ManagedProcess import ManagedProcess
-import json
+from configParsing import parseJson, updateParsing
+import time
 
-
-
-def parseJson(route):
-    with open(route, "r") as file:
-        result = json.load(file)
-    return result
-
-def updateParsing(processes):
-    outJson = parseJson("conf.json")
-    for key, value in outJson.items():
-        processes[key] = ManagedProcess(value)
 
 
 def updateProcesses(processes):
@@ -47,8 +36,13 @@ def processConsole():
 def main():
     processes = {}
     updateParsing(processes)
-    for _,value in processes.items():
-        value.launchProcess()
+    for _,proc in processes.items():
+        proc.launchProcess()
+    while True:
+        time.sleep(2)
+        for name , proc in processes.items():
+            proc.updateStatus()
+            print(f"Name:{name}, status {proc.status}")
 
 
 if __name__== "__main__":
