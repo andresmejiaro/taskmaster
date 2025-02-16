@@ -3,7 +3,7 @@ import subprocess
 import time
 
 def main():
-    subprocess.Popen(["python", "taskmaster_daemon.py"])
+    subprocess.Popen(["python3", "taskmaster_daemon.py"])
     time.sleep(2)
     start_shell()
 

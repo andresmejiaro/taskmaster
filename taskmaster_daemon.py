@@ -17,22 +17,28 @@ class TaskMaster:
 
         self.updateParsing()
         for proc in self.processes.values():
-            proc.launchProcess()
+            if proc.autostart == True:
+                proc.launchProcess()
 
+    #Read the original JSON FILE
     def parseJson(self, route):
         with open(route, "r") as file:
             return json.load(file)
 
+    #Crate the processes based on the Json file 
+    ## Needs updating for "hot updating"
     def updateParsing(self):
         outJson = self.parseJson("conf.json")
         self.processes = {key: ManagedProcess(value) for key, value in outJson.items()}
 
-    def updateProcesses(self):
-        for value in self.processes.values():
-            value.launchProcess()
+#    def updateProcesses(self):
+#        for value in self.processes.values():
+#            value.launchProcess()
 
     def checkStatus(self):
-        status_report = {key: proc.status() for key, proc in self.processes.items()}
+        status_report = {key: proc.statusjson() for key, proc in self.processes.items()}
+        w = json.dumps(status_report)
+        print(w)
         return json.dumps(status_report)
 
     def stopProcessId(self, id):
@@ -89,6 +95,11 @@ class TaskMaster:
                     response = json.dumps({"status": "error", "message": "Invalid JSON"})
                 
                 conn.sendall(response.encode())
+
+            for _, proc in self.processes.items():
+                proc.updateStatus()
+            conn.close()
+            
 
 
 def main():

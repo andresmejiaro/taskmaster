@@ -1,4 +1,4 @@
-import subprocess, shlex, signal
+import subprocess, shlex, signal, json
 from enum import Enum
 from datetime import datetime
 
@@ -111,10 +111,10 @@ class ManagedProcess:
         self.restarting = True
         if self.status == ProcessStatus.RUNNING:
             self.stopProcess()
-        if self.status in (ProcessStatus.STOPPED, ProcessStatus.CRASHED)
+        if self.status in (ProcessStatus.STOPPED, ProcessStatus.CRASHED):
             self.launchProcess()
 
-    def outputGet(self):
-        pass
-
+    def statusjson(self):
+        status = json.dumps({"status": self.status.value, "restarting" : self.restarting})
+        return status
     
