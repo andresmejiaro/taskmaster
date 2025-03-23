@@ -1,3 +1,4 @@
+#!/bin/python
 from ManagedProcess import ManagedProcess
 import json
 import socket
@@ -7,14 +8,6 @@ SOCKET_PATH = "/tmp/daemon_socket"
 
 class TaskMaster:
     def __init__(self):
-        self.server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        self.processes = {}
-        
-        if os.path.exists(SOCKET_PATH):
-            os.remove(SOCKET_PATH)
-        self.server.bind(SOCKET_PATH)
-        self.server.listen(5)
-
         self.updateParsing()
         for proc in self.processes.values():
             proc.launchProcess()
@@ -76,24 +69,3 @@ class TaskMaster:
         elif cmd == "EXIT":
             self.endProgram()
         return json.dumps({"status": "error", "message": "Unknown command"})
-
-    def Loop(self):
-        while True:
-            conn, _ = self.server.accept()
-            data = conn.recv(1024)
-            if data:
-                try:
-                    command = json.loads(data.decode())
-                    response = self.processConsole(command)
-                except json.JSONDecodeError:
-                    response = json.dumps({"status": "error", "message": "Invalid JSON"})
-                
-                conn.sendall(response.encode())
-
-
-def main():
-    taskmaster = TaskMaster()
-    taskmaster.Loop()
-
-if __name__ == "__main__":
-    main()

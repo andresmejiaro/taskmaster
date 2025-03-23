@@ -1,7 +1,7 @@
-import subprocess, shlex
+import subprocess
+import shlex
 from enum import Enum
 from datetime import datetime
-
 
 
 class ProcessStatus(Enum):
@@ -9,9 +9,6 @@ class ProcessStatus(Enum):
     RUNNING = "running"
     STARTiNG = "starting"
     CRASHED = "crashed"
-
-
-
 
 
 class ManagedProcess:
@@ -82,5 +79,3 @@ class ManagedProcess:
 
     def outputGet(self):
         pass
-
-    

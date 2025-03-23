@@ -1,3 +1,4 @@
+#!/bin/python
 from taskmaster_shell import start_shell
 import subprocess
 import time
