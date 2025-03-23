@@ -1,3 +1,4 @@
+#!/bin/python
 import socket
 import json
 import sys
@@ -9,7 +10,7 @@ PROMPT = "\033[92mtaskmaster> \033[0m"
 COLOR_ERROR = "\033[91m"
 COLOR_OK = "\033[94m"
 COLOR_RESET = "\033[0m"
-HISTORY_FILE = os.path.expanduser("~/.taskmaster_shell_history")
+HISTORY_FILE = os.path.expanduser("~/.taskmaster_history")
 
 def init_readline():
     """Initialize readline for line editing, history, and completion."""
