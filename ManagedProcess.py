@@ -3,7 +3,6 @@ from enum import Enum
 from datetime import datetime
 
 
-
 class ProcessStatus(Enum):
     STOPPED = "stopped"
     RUNNING = "running"

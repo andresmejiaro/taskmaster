@@ -2,8 +2,8 @@
     "bash": {
         "cmd": "/bin/ls"
     },
-    "nginx": {
-        "cmd": "/usr/local/bin/nginx -c /etc/nginx/test.conf",
+    "python": {
+        "cmd": "python3 -m http.server 8001",
         "numprocs": 1,
         "umask": "022",
         "workingdir": "/tmp",
@@ -20,21 +20,6 @@
           "STARTED_BY": "taskmaster",
           "ANSWER": 42
         }
-      },
-      "vogsphere": {
-        "cmd": "/usr/local/bin/vogsphere-worker --no-prefork",
-        "numprocs": 8,
-        "umask": "077",
-        "workingdir": "/tmp",
-        "autostart": true,
-        "autorestart": "unexpected",
-        "exitcodes": [0],
-        "startretries": 3,
-        "starttime": 5,
-        "stopsignal": "USR1",
-        "stoptime": 10,
-        "stdout": "/tmp/vgsworker.stdout",
-        "stderr": "/tmp/vgsworker.stderr"
       }
 }
 
