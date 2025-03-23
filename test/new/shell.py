@@ -20,8 +20,10 @@ def send_command(command, port):
             # Accessing JSON fields
             if isinstance(response_data, dict):
                 print("Response:", response_data)
-                if "response" in response_data:
-                    print("Response field:", response_data["response"])
+                if "status" in response_data:
+                    print("status:", response_data["status"])
+                    if "message" in response_data:
+                        print("message:", response_data["message"])
                 else:
                     print("No 'response' field found in JSON.")
             else:
