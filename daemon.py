@@ -53,6 +53,70 @@ class TaskMaster:
             proc.stopProcess()
         sys.exit(0)
 
+    def help(self, arg):
+        if arg:
+            tokens = arg.strip().split()
+            cmd = tokens[0].lower()
+            
+            if cmd == "status":
+                return json.dumps({
+                    "status": "success", 
+                    "message": "Show the status of all programs listed in the config file."
+                })
+            elif cmd == "start":
+                return json.dumps({
+                    "status": "success", 
+                    "message": (
+                        "Start a program listed in the config file.\n"
+                        "If no program is specified, all programs are started."
+                    )
+                })
+            elif cmd == "stop":
+                return json.dumps({
+                    "status": "success", 
+                    "message": (
+                        "Stop a running program from the config file.\n"
+                        "If no program is specified, all programs are stopped."
+                    )
+                })
+            elif cmd == "restart":
+                return json.dumps({
+                    "status": "success", 
+                    "message": (
+                        "Restart a program that is running.\n"
+                        "If no program is specified, all programs are restarted."
+                    )
+                })
+            elif cmd == "reload":
+                return json.dumps({
+                    "status": "success", 
+                    "message": "Reload the configuration file without stopping the main program."
+                })
+            elif cmd == "stop_main":
+                return json.dumps({
+                    "status": "success", 
+                    "message": "Stop the main program."
+                })
+            else:
+                return json.dumps({
+                    "status": "error", 
+                    "message": f"Unknown command: {cmd}"
+                })
+        else:
+            return json.dumps({
+                "status": "success", 
+                "message": (
+                    "Usage:\n"
+                    "  status       Show the status of all programs listed in the config file.\n"
+                    "  start        Start a program listed in the config file.\n"
+                    "  stop         Stop a running program from the config file.\n"
+                    "  restart      Restart a program that is running.\n"
+                    "  reload       Reload the configuration file.\n"
+                    "  stop_main    Stop the main program.\n"
+                    "  help [CMD]   Show the help of a especific command."
+                )
+            })
+
     def processConsole(self, line):
         """
         Processes a single-line command.
@@ -91,6 +155,8 @@ class TaskMaster:
             return json.dumps({"status": "success", "message": "Configuration reloaded"})
         elif cmd == "exit":
             self.endProgram()
+        elif cmd == "help":
+            return self.help(arg)
         else:
             return json.dumps({"status": "error", "message": "Unknown command"})
 
