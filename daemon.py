@@ -1,4 +1,5 @@
 #!/bin/python
+import asyncio
 import socket
 import sys
 import json
@@ -23,5 +24,4 @@ if __name__ == "__main__":
     taskmaster = TaskMaster()
     daemon = Daemon(taskmaster)
     # Start the daemon to listen for JSON commands
-    start_daemon(port, daemon)
-
+    asyncio.run(start_daemon(port, daemon))

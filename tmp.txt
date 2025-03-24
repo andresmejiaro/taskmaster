@@ -1,0 +1,48 @@
+def setup_server(port):
+    """Initialize and return a configured server socket."""
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server.bind((HOST, port))
+    server.listen()
+    print(f"Listening on {HOST}:{port}...")
+    return server
+
+def handle_client(conn, addr, daemon):
+    """Handle incoming client connection."""
+    print(f"Connected by {addr}")
+    try:
+        data = conn.recv(1024)
+        if data:
+            response = process_command(data, daemon)
+            conn.sendall(response)
+    except Exception as e:
+        print(f"Error handling client {addr}: {e}")
+    finally:
+        conn.close()
+
+def process_command(data, daemon):
+    """
+    Process the received data (a single-line command as JSON string).
+    The JSON is expected to contain a single key "command" with a string value.
+    """
+    try:
+        cmd_data = json.loads(data.decode())
+        line = cmd_data.get("command", "")
+        print(f"Received command line: {line}")
+        response = daemon.processConsole(line)
+    except json.JSONDecodeError:
+        response = json.dumps({"status": "error", "message": "Malformed JSON"})
+    return response.encode()
+
+def start_daemon(port, daemon):
+    """Start the daemon server and handle incoming connections."""
+    server = setup_server(port)
+    try:
+        while True:
+            conn, addr = server.accept()
+            handle_client(conn, addr, daemon)
+            daemon.taskMaster.checkStatus()
+    except KeyboardInterrupt:
+        print("\nShutting down server...")
+    finally:
+        server.close()
