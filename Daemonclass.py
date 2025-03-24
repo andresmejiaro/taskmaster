@@ -71,8 +71,19 @@ async def process_command(data, daemon):
         response = json.dumps({"status": "error", "message": "Malformed JSON"})
     return response.encode()
 
+async def per_frame_function(daemon):
+    while True:
+        daemon.taskMaster.checkStatus()
+        await asyncio.sleep(0.1)  # Adjust the sleep for your timing needs
+
 async def start_daemon(port, daemon):
-    server = await asyncio.start_server(lambda r, w: handle_client(r, w, daemon), HOST, port)
+    server = await asyncio.start_server(
+        lambda r, w: handle_client(r, w, daemon), HOST, port)
     print(f"Listening on {HOST}:{port}...")
+
     async with server:
-        await server.serve_forever()
+        # Run both the server and the per-frame function concurrently
+        await asyncio.gather(
+            server.serve_forever(),
+            per_frame_function(daemon)
+        )
