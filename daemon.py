@@ -23,5 +23,4 @@ if __name__ == "__main__":
     # Create a TaskMaster instance which starts up the managed processes
     taskmaster = TaskMaster()
     daemon = Daemon(taskmaster)
-    # Start the daemon to listen for JSON commands
     asyncio.run(start_daemon(port, daemon))

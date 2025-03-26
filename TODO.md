@@ -1,5 +1,5 @@
 - [] loggin
-- [] hot reload command and signal
+- [] hot reload signal
 - [] stop daemon
 - [] Environment variables to set before launching the program
 - [] A working directory to set before launching the program

@@ -9,13 +9,10 @@ def parseJson(route):
         result = json.load(file)
     return result
 
-def updateParsing(processes):
-    try:
-        outJson = parseJson("conf.json")
-    except BaseException as e:
-        print("error parsing the config file")
-        sys.exit()
-    processes[key] = ManagedProcess(value)
+def updateParsing(route):
+    outJson2 = parseJson(route)
+    outJson = add_nprocs(outJson2)
+    return ({key: ManagedProcess(value) for key, value in outJson.items()}, outJson2)
 
 def add_nprocs(outJson):
     result = {}

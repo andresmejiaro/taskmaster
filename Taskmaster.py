@@ -1,27 +1,46 @@
 import json
-from configParsing import add_nprocs
+from configParsing import add_nprocs, updateParsing
 from ManagedProcess import ManagedProcess
 
 class TaskMaster:
     def __init__(self):
-        self.updateParsing()
-        # Launch all processes at initialization
+        self.processes, self.oldJson = updateParsing("conf.json")
+        self.nameProcess()
         for proc in self.processes.values():
             if proc.autostart:
                 proc.launchProcess()
-
-    def parseJson(self, route):
-        with open(route, "r") as file:
-            return json.load(file)
+    
+    def nameProcess(self):
+        for key,value in self.processes.items():
+            value.name = key
 
     def updateParsing(self):
-        outJson = self.parseJson("conf.json")
-        outJson = add_nprocs(outJson)
-        self.processes = {key: ManagedProcess(value) for key, value in outJson.items()}
+        _, newParsing = updateParsing("conf.json")
+        common = {key: value for key, value in newParsing.items() if key in self.oldJson.keys() and self.oldJson[key] ==  value}
+        notCommon = {key: value for key, value in newParsing.items() if key not in common.keys()} 
+        common = add_nprocs(common)
+        notCommon = add_nprocs(notCommon)
+        for key in self.processes.keys():
+            if key not in common:
+                self.processes[key].drop = True
+                self.stopProcessId(key)
+        for key, value in notCommon.items():
+            self.processes[key] = ManagedProcess(value)
+            self.processes[key].name = key
+            if self.processes[key].autostart:
+                self.processes[key].launchProcess()
+        
+        self.oldJson = newParsing
+
 
     def updateProcesses(self):
-        for proc in self.processes.values():
-            proc.updateStatus()
+        to_del = []
+        for key, proc in self.processes.items():
+            drop = proc.updateStatus()
+            if drop:
+                to_del.append(key)    
+        for key in to_del:
+            del self.processes[key]
 
     def checkStatus(self):
         self.updateProcesses()

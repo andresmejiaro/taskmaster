@@ -44,6 +44,7 @@ class ManagedProcess:
         self.restarting = 0
         self.restartCounter = 0
         self.restartOption = jsonAtt.get("autorestart","never")
+        self.drop = False
         match self.restartOption:
             case "always":
                 self.restartOption = ReestartOptions.ALWAYS
@@ -57,7 +58,7 @@ class ManagedProcess:
 
     def updateStatus(self):
         if self.process is None:
-            return
+            return self.drop
         pollresult = self.process.poll()
         if self.restarting == True and \
             self.status == ProcessStatus.RUNNING:
@@ -66,27 +67,33 @@ class ManagedProcess:
             self.restartProcess()
         match self.status:
             case ProcessStatus.STOPPED:
-                if self.restartOption == ReestartOptions.ALWAYS:
+                if self.drop == True:
+                    return True
+                elif self.restartOption == ReestartOptions.ALWAYS:
                     self.restartProcess()
             case ProcessStatus.STARTING:
                 if pollresult is None:
                     if (datetime.now() - self.initTime).total_seconds() > \
                     self.starttime:
                         self.status = ProcessStatus.RUNNING
-                elif pollresult in self.exitcodes:
-                    self.status = ProcessStatus.STOPPED
-                elif pollresult not in self.exitcodes:
-                    self.status = ProcessStatus.CRASHED
+                else:
+                    if pollresult in self.exitcodes:
+                        self.status = ProcessStatus.STOPPED
+                    else:
+                        self.status = ProcessStatus.CRASHED
             case ProcessStatus.STOPING:
                 self.stopProcess(pollresult)
             case ProcessStatus.RUNNING:
-                if pollresult in self.exitcodes:
+                if pollresult is not None and pollresult in self.exitcodes:
                     self.status = ProcessStatus.STOPPED
-                elif pollresult not in self.exitcodes:
+                elif pollresult is not None and pollresult not in self.exitcodes:
                     self.status = ProcessStatus.CRASHED
             case ProcessStatus.CRASHED:
+                if self.drop == True:
+                    return True
                 if self.restartOption in [ReestartOptions.ALWAYS, ReestartOptions.CRASH]:
                     self.restartProcess()
+        return False
 
 
     def launchProcess(self, manual = False):
@@ -98,7 +105,7 @@ class ManagedProcess:
             with open(self.stdout,"w") as outfile, open(self.stderr,"w") as errfile:
                     try:
                         self.process = subprocess.Popen(command,
-                        stdout=outfile, stderr=errfile)
+                        stdout=outfile, stderr=errfile, cwd = self.workingdir, umask = self.umask)
                         self.status = ProcessStatus.STARTING
                         self.initTime = datetime.now()
                     except OSError as e:
