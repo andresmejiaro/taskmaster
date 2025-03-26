@@ -1,6 +1,8 @@
 import subprocess, shlex, signal, json
 from enum import Enum
 from datetime import datetime
+from logs import logger
+import os
 
 
 class ProcessStatus(Enum):
@@ -19,8 +21,10 @@ class ReestartOptions(Enum):
 class ManagedProcess:
     def __init__(self, jsonAtt):
         self.command = jsonAtt["cmd"]
+        self.name = self.command
         self.numprocs = jsonAtt.get("numprocs",1)
-        self.umask = jsonAtt.get("umask",22)
+        umask_raw = jsonAtt.get("umask", "022")
+        self.umask = int(umask_raw, 8) if isinstance(umask_raw, str) else umask_raw
         self.workingdir = jsonAtt.get("workingdir",".")
         self.autostart = jsonAtt.get("autostart",False)
         self.exitcodes = jsonAtt.get("exitcodes",[0])
@@ -30,14 +34,17 @@ class ManagedProcess:
         try:
             sig = getattr(signal, "SIG" + signal_name)
         except AttributeError:
-            print(f"Invalid signal name: SIG{signal_name}, using SIGTERM instead to finish")
+            logger.error(f"{self.command} Invalid signal name: SIG{signal_name}, using SIGTERM instead to finish")
             sig = getattr(signal, "SIGTERM")
         self.stopsignal = sig
         self.stoptime = jsonAtt.get("stoptime",10)
         self.stdout = jsonAtt.get("stdout","/dev/null")
         self.stderr = jsonAtt.get("stderr","/dev/null")
-        self.env = jsonAtt.get("env",{})
+        self.env = os.environ.copy()
+        tmp_env = jsonAtt.get("env",{})
+        self.env.update(tmp_env)
         self.status = ProcessStatus.STOPPED
+       
         self.initTime = None
         self.breakTime = None
         self.process = None
@@ -54,7 +61,7 @@ class ManagedProcess:
                 self.restartOption = ReestartOptions.NEVER
             case _:
                 self.restartOption = ReestartOptions.NEVER
-                print("Invalid restart option defaulting to never")
+                logger.error(f"{self.command} Invalid restart option defaulting to never")
 
     def updateStatus(self):
         if self.process is None:
@@ -76,18 +83,23 @@ class ManagedProcess:
                     if (datetime.now() - self.initTime).total_seconds() > \
                     self.starttime:
                         self.status = ProcessStatus.RUNNING
+                        logger.debug(f"{self.name} changed status to RUNNING")
                 else:
                     if pollresult in self.exitcodes:
                         self.status = ProcessStatus.STOPPED
+                        logger.debug(f"{self.name} changed status to STOPPED")
                     else:
                         self.status = ProcessStatus.CRASHED
+                        logger.debug(f"{self.name} changed status to CRASHED")
             case ProcessStatus.STOPING:
                 self.stopProcess(pollresult)
             case ProcessStatus.RUNNING:
                 if pollresult is not None and pollresult in self.exitcodes:
                     self.status = ProcessStatus.STOPPED
+                    logger.debug(f"{self.name} changed status to STOPPED")
                 elif pollresult is not None and pollresult not in self.exitcodes:
                     self.status = ProcessStatus.CRASHED
+                    logger.debug(f"{self.name} changed status to CRASHED")
             case ProcessStatus.CRASHED:
                 if self.drop == True:
                     return True
@@ -105,14 +117,20 @@ class ManagedProcess:
             with open(self.stdout,"w") as outfile, open(self.stderr,"w") as errfile:
                     try:
                         self.process = subprocess.Popen(command,
-                        stdout=outfile, stderr=errfile, cwd = self.workingdir, umask = self.umask)
+                        stdout=outfile, stderr=errfile, cwd = self.workingdir, umask = self.umask,
+                        env = self.env)
                         self.status = ProcessStatus.STARTING
+                        logger.debug(f"{self.name} changed status to STARTING")
                         self.initTime = datetime.now()
                     except OSError as e:
                         self.status = ProcessStatus.CRASHED
+                        logger.debug(f"{self.name} changed status to CRASHED")
+                        logger.error(f"{self.name} Error launching the command {e}")
                         print(f'Error launching the command: {e}')
         except (IOError, OSError) as e:
             self.status = ProcessStatus.CRASHED
+            logger.debug(f"{self.name} changed status to CRASHED")
+            logger.error(f"{self.name} Error opening stdout or stderr {e}")
             print(f"Error opening the files: {e}")
  
         
@@ -124,12 +142,14 @@ class ManagedProcess:
             difftime = None
         if self.status == ProcessStatus.STOPING and difftime is not None :
             if pollresult is not None:
-               self.status = ProcessStatus.STOPPED 
+               self.status = ProcessStatus.STOPPED
+               logger.debug(f"{self.name} changed status to STOPPED")
             elif difftime.seconds > self.stoptime:
                 self.process.kill()
                 self.status = ProcessStatus.STOPPED           
         if self.status in [ProcessStatus.RUNNING, ProcessStatus.STARTING]:
             self.status = ProcessStatus.STOPING
+            logger.debug(f"{self.name} changed status to STOPPING")
             self.process.send_signal(self.stopsignal)
             self.breakTime = datetime.now()
 

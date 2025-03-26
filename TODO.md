@@ -1,6 +1,6 @@
-- [] loggin
-- [] hot reload signal
+- [X] loggin
+- [X] hot reload signal
 - [] stop daemon
 - [] Environment variables to set before launching the program
-- [] A working directory to set before launching the program
-- [] An umask to set before launching the program
+- [X] A working directory to set before launching the program
+- [X] An umask to set before launching the program

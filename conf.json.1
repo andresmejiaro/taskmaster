@@ -1,38 +1,31 @@
 {
     "ls": {
         "cmd": "/bin/ls",
-        "autostart" : true,
-        "numprocs":2,
+        "autostart": true,
+        "numprocs": 2,
         "stdout": "/tmp/ls"
     },
-    "python": {
-        "cmd": "python3 -m http.server 8013",
-        "numprocs": 1,
-        "umask": "022",
-        "workingdir": "/tmp",
+    "tail-f": {
+        "cmd": "tail -f /dev/urandom",
         "autostart": true,
-        "autorestart": "unexpected",
-        "exitcodes": [0, 2],
-        "startretries": 3,
-        "starttime": 5,
-        "stopsignal": "TERM",
-        "stoptime": 10,
-        "stdout": "/tmp/nginx.stdout",
-        "stderr": "/tmp/nginx.stderr",
-        "env": {
-          "STARTED_BY": "taskmaster",
-          "ANSWER": 42
-        }
-      },
-    "fail" :{
-        "cmd": "./fail.sh",
+        "numprocs": 1,
+        "stdout": "/tmp/tail.out"
+    },
+    "echo": {
+        "cmd": "/bin/echo 'Hello from the new entry!'",
         "autostart": false,
-        "starttime":20,
-        "autorestart":"unexpected",
-        "startretries":4
+        "numprocs": 1,
+        "stdout": "/tmp/echo.out"
+    },
+    "touch" : {
+        "cmd": "/home/andres/taskmaster/simple_touch.sh",
+        "autostart" : true,
+        "umask": "0777"
+    },
+    "touch_me" : {
+        "cmd": "/home/andres/taskmaster/simple_touch.sh",
+        "autostart" : true,
+        "workingdir": "/tmp"
     }
-      
+    
 }
-
-
-

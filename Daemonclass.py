@@ -1,11 +1,17 @@
-#!/bin/python
 import asyncio
 import json
 import sys
-from ManagedProcess import ManagedProcess
+from ManagedProcess import ManagedProcess, ProcessStatus
 from configParsing import add_nprocs
+from logs import logger
 
 HOST = '127.0.0.1'
+
+
+def log_error_and_return(errosst):
+    logger.error(errosst)
+    return json.dumps({f"status": "error", "message": errosst})
+
 
 class Daemon:
     def __init__(self, taskMaster):
@@ -14,41 +20,44 @@ class Daemon:
     async def processConsole(self, line):
         tokens = line.strip().split()
         if not tokens:
-            return json.dumps({"status": "error", "message": "Empty command"})
+            return log_errror_and_return("Empty command")
 
         cmd = tokens[0].lower()
         arg = " ".join(tokens[1:]) if len(tokens) > 1 else None
-
+        logger.debug(f"Recieved command {cmd} {arg}")
         if cmd == "status":
             return self.taskMaster.checkStatus()
         elif cmd == "stop":
             if arg:
                 return self.taskMaster.stopProcessId(arg)
-            return json.dumps({"status": "error", "message": "Missing process ID for stop"})
+            return log_error_and_return("Missing process ID for stop")
         elif cmd == "start":
             if arg:
                 return self.taskMaster.startProcessId(arg)
-            return json.dumps({"status": "error", "message": "Missing process ID for start"})
+
+            return log_error_and_return("Missing process ID for start")
         elif cmd == "restart":
             if arg:
                 return self.taskMaster.restartProcessId(arg)
-            return json.dumps({"status": "error", "message": "Missing process ID for restart"})
+            return log_error_and_return("Missing process ID for restart")
         elif cmd == "reload":
             self.taskMaster.updateParsing()
-            return json.dumps({"status": "success", "message": "Configuration reloaded"})
+            return json.dumps({"status": "success", "message": "Configuration reloading starting"})
         elif cmd == "exit":
             await self.endProgram()
         else:
             return json.dumps({"status": "error", "message": "Unknown command"})
     
     async def endProgram(self):
+        logger.info("Starting shutdown")
         for proc in self.taskMaster.processes.values():
             proc.stopProcess()
-        sys.exit(0)
+        self.taskMaster.shutdown = True
 
 async def handle_client(reader, writer, daemon):
     addr = writer.get_extra_info('peername')
     print(f"Connected by {addr}")
+    logger.debug("Connected by {addr}")
     try:
         data = await reader.read(1024)
         if data:
@@ -57,6 +66,7 @@ async def handle_client(reader, writer, daemon):
             await writer.drain()
     except Exception as e:
         print(f"Error handling client {addr}: {e}")
+        logger.error(f"Error handling client {addr}: {e}")
     finally:
         writer.close()
         await writer.wait_closed()

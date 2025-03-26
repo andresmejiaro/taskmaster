@@ -1,11 +1,16 @@
 import json
 from configParsing import add_nprocs, updateParsing
-from ManagedProcess import ManagedProcess
+from ManagedProcess import ManagedProcess, ProcessStatus
+from logs import logger
 
 class TaskMaster:
     def __init__(self):
         self.processes, self.oldJson = updateParsing("conf.json")
         self.nameProcess()
+        for proc in self.processes.values():
+            logger.debug(f"setting staus of {proc.name} to STOPPED")
+
+        self.shutdown = False
         for proc in self.processes.values():
             if proc.autostart:
                 proc.launchProcess()
@@ -46,6 +51,10 @@ class TaskMaster:
         self.updateProcesses()
         status_report = {key: proc.status.value for key, proc in self.processes.items()}
         string = str(json.dumps(status_report))
+        if self.shutdown:
+            if all([w.status in [ProcessStatus.CRASHED, ProcessStatus.STOPPED] for w in self.processes]):
+                logger.info("All processes down shutting down")
+                raise SystemExit(0)        
         return json.dumps({"status": "success", "message": f"{string}"})
 
     def stopProcessId(self, id):
