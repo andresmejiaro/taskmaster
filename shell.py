@@ -53,7 +53,7 @@ def process_response(response):
         return
 
     if isinstance(response_data, dict):
-        print("Response:", response_data)
+        # print("Response:", response_data)
         if "status" in response_data and "message" in response_data:
             status = response_data["status"]
             message = response_data["message"]
