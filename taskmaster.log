@@ -47,3 +47,14 @@
 2025-03-30 12:56:30,902 - Taskmaster - DEBUG - Connected by {addr}
 2025-03-30 12:56:30,902 - Taskmaster - DEBUG - Recieved command poweroff None
 2025-03-30 12:56:30,902 - Taskmaster - INFO - Starting shutdown
+2025-03-30 13:16:39,904 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 13:16:39,905 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 13:16:39,906 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 13:16:39,908 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 13:16:39,910 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 13:16:39,911 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 13:16:45,697 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 13:16:45,698 - Taskmaster - DEBUG - Recieved command status None
+2025-03-30 13:16:47,279 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 13:16:47,280 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 13:16:47,280 - Taskmaster - INFO - Starting shutdown
