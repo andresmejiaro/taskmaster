@@ -116,17 +116,17 @@ class ManagedProcess:
         try:
             with open(self.stdout,"w") as outfile, open(self.stderr,"w") as errfile:
                     try:
+                        self.env = {key:str(value) for key,value in self.env.items()}
                         self.process = subprocess.Popen(command,
                         stdout=outfile, stderr=errfile, cwd = self.workingdir, umask = self.umask,
                         env = self.env)
                         self.status = ProcessStatus.STARTING
                         logger.debug(f"{self.name} changed status to STARTING")
                         self.initTime = datetime.now()
-                    except OSError as e:
+                    except Exception as ex:
                         self.status = ProcessStatus.CRASHED
-                        logger.debug(f"{self.name} changed status to CRASHED")
-                        logger.error(f"{self.name} Error launching the command {e}")
-                        print(f'Error launching the command: {e}')
+                        logger.error(f"{self.name} changed status to CRASHED")
+                        logger.error(f"An unexpected error occurred launching the command: {ex}")
         except (IOError, OSError) as e:
             self.status = ProcessStatus.CRASHED
             logger.debug(f"{self.name} changed status to CRASHED")
