@@ -47,9 +47,23 @@ class Daemon:
         elif cmd == "poweroff":
             await self.endProgram()
             return json.dumps({"status": "success", "message": "Daemon turn off..."})
+        elif cmd == "poweroffs":
+            await self.endProgram_signal()
+            return json.dumps({"status": "success", "message": "Daemon turn off..."})
+        elif cmd == "reloads":
+            logger.info("SIGHUP recived")
+            self.taskMaster.updateParsing()
+            return json.dumps({"status": "success", "message": "Configuration reloading starting"})
         else:
             return json.dumps({"status": "error", "message": "Unknown command"})
-    
+
+    async def endProgram_signal(self):
+        logger.info("SIGTERM recived")
+        for proc in self.taskMaster.processes.values():
+            proc.stopProcess()
+        self.taskMaster.shutdown = True
+        poweroff = True
+
     async def endProgram(self):
         logger.info("Starting shutdown")
         for proc in self.taskMaster.processes.values():

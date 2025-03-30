@@ -41,8 +41,8 @@ def daemonize():
 
 loop = asyncio.get_event_loop()
 
-loop.add_signal_handler(signal.SIGTERM, lambda: send_command("poweroff"))
-loop.add_signal_handler(signal.SIGHUP, lambda: send_command("reload"))
+loop.add_signal_handler(signal.SIGTERM, lambda: send_command("poweroffs"))
+loop.add_signal_handler(signal.SIGHUP, lambda: send_command("reloads"))
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

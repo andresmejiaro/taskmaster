@@ -386,3 +386,54 @@
 2025-03-30 17:11:36,806 - Taskmaster - DEBUG - tail-f changed status to STOPPING
 2025-03-30 17:11:36,815 - Taskmaster - DEBUG - tail-f changed status to STOPPED
 2025-03-30 17:11:36,816 - Taskmaster - INFO - All processes down shutting down
+2025-03-30 17:22:26,238 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 17:22:26,239 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 17:22:26,239 - Taskmaster - DEBUG - setting staus of tail-f to STOPPED
+2025-03-30 17:22:26,239 - Taskmaster - DEBUG - setting staus of echo to STOPPED
+2025-03-30 17:22:26,239 - Taskmaster - DEBUG - setting staus of touch to STOPPED
+2025-03-30 17:22:26,239 - Taskmaster - DEBUG - setting staus of touch_me to STOPPED
+2025-03-30 17:22:26,239 - Taskmaster - DEBUG - setting staus of env to STOPPED
+2025-03-30 17:22:26,252 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 17:22:26,254 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 17:22:26,258 - Taskmaster - DEBUG - tail-f changed status to STARTING
+2025-03-30 17:22:26,260 - Taskmaster - ERROR - touch changed status to CRASHED
+2025-03-30 17:22:26,260 - Taskmaster - ERROR - An unexpected error occurred launching the command: [Errno 2] No such file or directory: '/home/andres/taskmaster/simple_touch.sh'
+2025-03-30 17:22:26,261 - Taskmaster - ERROR - touch_me changed status to CRASHED
+2025-03-30 17:22:26,261 - Taskmaster - ERROR - An unexpected error occurred launching the command: [Errno 2] No such file or directory: '/home/andres/taskmaster/simple_touch.sh'
+2025-03-30 17:22:26,264 - Taskmaster - DEBUG - env changed status to STARTING
+2025-03-30 17:22:26,267 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 17:22:26,268 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 17:22:26,268 - Taskmaster - DEBUG - tail-f changed status to RUNNING
+2025-03-30 17:22:26,268 - Taskmaster - DEBUG - env changed status to RUNNING
+2025-03-30 17:22:26,369 - Taskmaster - DEBUG - env changed status to STOPPED
+2025-03-30 17:23:13,196 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 17:23:13,197 - Taskmaster - DEBUG - Recieved command reload None
+2025-03-30 17:24:23,472 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 17:24:23,473 - Taskmaster - DEBUG - Recieved command poweroff1 None
+2025-03-30 17:24:23,474 - Taskmaster - INFO - SIGTERM recived
+2025-03-30 17:24:23,475 - Taskmaster - DEBUG - tail-f changed status to STOPPING
+2025-03-30 17:24:23,531 - Taskmaster - DEBUG - tail-f changed status to STOPPED
+2025-03-30 17:24:23,531 - Taskmaster - INFO - All processes down shutting down
+2025-03-30 17:29:33,194 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 17:29:33,195 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 17:29:33,196 - Taskmaster - DEBUG - setting staus of tail-f to STOPPED
+2025-03-30 17:29:33,196 - Taskmaster - DEBUG - setting staus of echo to STOPPED
+2025-03-30 17:29:33,196 - Taskmaster - DEBUG - setting staus of touch to STOPPED
+2025-03-30 17:29:33,196 - Taskmaster - DEBUG - setting staus of touch_me to STOPPED
+2025-03-30 17:29:33,196 - Taskmaster - DEBUG - setting staus of env to STOPPED
+2025-03-30 17:29:33,199 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 17:29:33,203 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 17:29:33,205 - Taskmaster - DEBUG - tail-f changed status to STARTING
+2025-03-30 17:29:33,208 - Taskmaster - ERROR - touch changed status to CRASHED
+2025-03-30 17:29:33,209 - Taskmaster - ERROR - An unexpected error occurred launching the command: [Errno 2] No such file or directory: '/home/andres/taskmaster/simple_touch.sh'
+2025-03-30 17:29:33,212 - Taskmaster - ERROR - touch_me changed status to CRASHED
+2025-03-30 17:29:33,212 - Taskmaster - ERROR - An unexpected error occurred launching the command: [Errno 2] No such file or directory: '/home/andres/taskmaster/simple_touch.sh'
+2025-03-30 17:29:33,214 - Taskmaster - DEBUG - env changed status to STARTING
+2025-03-30 17:29:33,216 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 17:29:33,219 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 17:29:33,219 - Taskmaster - DEBUG - tail-f changed status to RUNNING
+2025-03-30 17:29:33,219 - Taskmaster - DEBUG - env changed status to RUNNING
+2025-03-30 17:29:33,320 - Taskmaster - DEBUG - env changed status to STOPPED
+2025-03-30 17:29:56,309 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 17:29:56,313 - Taskmaster - DEBUG - Recieved command reloads None
+2025-03-30 17:29:56,313 - Taskmaster - INFO - SIGHUP recived
