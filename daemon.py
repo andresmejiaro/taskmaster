@@ -9,6 +9,7 @@ from ManagedProcess import ManagedProcess
 from configParsing import add_nprocs
 from Daemonclass import Daemon, start_daemon
 from Taskmaster import TaskMaster
+from logs import logger
 
 ROUTER_HOST = '127.0.0.1'
 g_port = 7777
@@ -72,4 +73,4 @@ finally:
         task.cancel()
     loop.run_until_complete(asyncio.gather(*tasks, return_exceptions=True))
     loop.close()
-    print("Event loop closed cleanly.")
+    logger.debug("Event loop closed cleanly. Closing daemon")
