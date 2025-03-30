@@ -96,7 +96,6 @@ async def start_daemon(port, daemon):
     print(f"Listening on {HOST}:{port}...")
 
     async with server:
-        # Run both the server and the per-frame function concurrently
         try:
             await asyncio.gather(
                 server.serve_forever(),

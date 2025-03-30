@@ -11,18 +11,11 @@ from Taskmaster import TaskMaster
 
 
 def daemonize():
-    # Fork the first time
     if os.fork() > 0:
         sys.exit(0)  # Exit parent
-
-    # Create a new session
     os.setsid()
-
-    # Fork again to prevent reacquiring a terminal
     if os.fork() > 0:
         sys.exit(0)
-
-    # Redirect standard file descriptors
     sys.stdout.flush()
     sys.stderr.flush()
     with open('/dev/null', 'r') as dev_null:
@@ -41,7 +34,6 @@ if __name__ == "__main__":
         print("Invalid port. Please enter a valid integer.")
         sys.exit(1)
     daemonize()
-    # Create a TaskMaster instance which starts up the managed processes
     taskmaster = TaskMaster()
     daemon = Daemon(taskmaster)
     asyncio.run(start_daemon(port, daemon))

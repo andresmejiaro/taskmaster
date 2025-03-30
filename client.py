@@ -13,7 +13,6 @@ COLOR_RESET = "\033[0m"
 HISTORY_FILE = os.path.expanduser("~/.taskmaster_history")
 
 def init_readline():
-    """Initialize readline for line editing, history, and completion."""
     readline.parse_and_bind("tab: complete")
     try:
         readline.read_history_file(HISTORY_FILE)
@@ -21,22 +20,17 @@ def init_readline():
         pass
 
 def save_history():
-    """Save the current session's command history to a file."""
     try:
         readline.write_history_file(HISTORY_FILE)
     except Exception as e:
         print(f"Could not save history: {e}")
 
 def send_command(command, port):
-    """Send a JSON command to the daemon and process the response."""
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
             client.connect((ROUTER_HOST, port))
-            # Build and send JSON command message
             message = json.dumps({"command": command})
             client.sendall(message.encode())
-
-            # Receive and process the response
             response = client.recv(1024)
             process_response(response)
     except ConnectionRefusedError:
@@ -45,7 +39,6 @@ def send_command(command, port):
         print("An error occurred:", e)
 
 def process_response(response):
-    """Process and print the JSON response from the daemon."""
     try:
         response_data = json.loads(response.decode())
     except json.JSONDecodeError:
@@ -53,7 +46,6 @@ def process_response(response):
         return
 
     if isinstance(response_data, dict):
-        print("Response:", response_data)
         if "status" in response_data and "message" in response_data:
             status = response_data["status"]
             message = response_data["message"]
@@ -67,7 +59,6 @@ def process_response(response):
         print("Invalid JSON format received:", response_data)
 
 def get_command():
-    """Prompt the user for a command and return it."""
     try:
         return input(PROMPT)
     except EOFError:
@@ -93,7 +84,7 @@ def main():
             if cmd.lower() == 'exit':
                 print("Exiting shell...")
                 break
-            if cmd.strip():  # Only send non-empty commands
+            if cmd.strip():
                 send_command(cmd, port)
     finally:
         save_history()
