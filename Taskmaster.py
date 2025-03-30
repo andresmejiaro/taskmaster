@@ -52,9 +52,11 @@ class TaskMaster:
         status_report = {key: proc.status.value for key, proc in self.processes.items()}
         string = str(json.dumps(status_report))
         if self.shutdown:
-            if all([w.status in [ProcessStatus.CRASHED, ProcessStatus.STOPPED] for w in self.processes]):
+            v= [w for w in self.processes.values()]
+            v1 = [x.status in [ProcessStatus.CRASHED, ProcessStatus.STOPPED] for x in v]
+            if all(v1):
                 logger.info("All processes down shutting down")
-                raise SystemExit(0)        
+                raise SystemExit(0)  
         return json.dumps({"status": "success", "message": f"{string}"})
 
     def stopProcessId(self, id):

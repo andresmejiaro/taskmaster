@@ -47,3 +47,97 @@
 2025-03-30 12:56:30,902 - Taskmaster - DEBUG - Connected by {addr}
 2025-03-30 12:56:30,902 - Taskmaster - DEBUG - Recieved command poweroff None
 2025-03-30 12:56:30,902 - Taskmaster - INFO - Starting shutdown
+2025-03-30 06:39:58,123 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 06:39:58,123 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 06:39:58,123 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 06:39:58,124 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 06:39:58,125 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 06:39:58,125 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 06:40:31,216 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 06:40:31,216 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 06:40:31,216 - Taskmaster - INFO - Starting shutdown
+2025-03-30 06:42:28,716 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 06:42:28,716 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 06:42:28,717 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 06:42:28,717 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 06:42:28,718 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 06:42:28,718 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 06:42:38,106 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 06:42:38,106 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 06:42:38,107 - Taskmaster - INFO - Starting shutdown
+2025-03-30 06:43:18,593 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 06:43:18,594 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 06:43:18,594 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 06:43:18,594 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 06:43:18,595 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 06:43:18,595 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 06:43:20,511 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 06:43:20,511 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 06:43:20,511 - Taskmaster - INFO - Starting shutdown
+2025-03-30 06:47:25,910 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 06:47:25,910 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 06:47:33,861 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 06:47:33,863 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 06:47:33,867 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 06:47:33,867 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 06:47:42,894 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 06:47:42,894 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 06:47:42,895 - Taskmaster - INFO - Starting shutdown
+2025-03-30 06:54:18,969 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 06:54:18,970 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 06:54:18,971 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 06:54:18,972 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 06:54:18,975 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 06:54:18,975 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 06:54:25,037 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 06:54:25,038 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 06:54:25,038 - Taskmaster - INFO - Starting shutdown
+2025-03-30 06:55:51,381 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 06:55:51,381 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 06:55:51,382 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 06:55:51,383 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 06:55:51,387 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 06:55:51,387 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 06:55:57,605 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 06:55:57,606 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 06:55:57,606 - Taskmaster - INFO - Starting shutdown
+2025-03-30 06:57:27,993 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 06:57:27,993 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 06:57:27,995 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 06:57:27,996 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 06:57:27,998 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 06:57:27,998 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 06:57:33,701 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 06:57:33,702 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 06:57:33,702 - Taskmaster - INFO - Starting shutdown
+2025-03-30 06:58:06,072 - Taskmaster - INFO - All processes down shutting down
+2025-03-30 06:59:40,594 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 06:59:40,594 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 06:59:40,596 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 06:59:40,597 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 06:59:40,600 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 06:59:40,600 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 06:59:51,261 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 06:59:51,263 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 06:59:51,263 - Taskmaster - INFO - Starting shutdown
+2025-03-30 07:00:00,009 - Taskmaster - INFO - All processes down shutting down
+2025-03-30 07:00:14,026 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 07:00:14,027 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 07:00:14,028 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 07:00:14,029 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 07:00:14,034 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 07:00:14,035 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 07:00:16,623 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 07:00:16,624 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 07:00:16,624 - Taskmaster - INFO - Starting shutdown
+2025-03-30 07:00:16,648 - Taskmaster - INFO - All processes down shutting down
+2025-03-30 07:00:32,109 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 07:00:32,110 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 07:00:32,114 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 07:00:32,115 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 07:00:32,118 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 07:00:32,118 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 07:00:34,048 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 07:00:34,048 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 07:00:34,049 - Taskmaster - INFO - Starting shutdown
+2025-03-30 07:00:34,131 - Taskmaster - INFO - All processes down shutting down
