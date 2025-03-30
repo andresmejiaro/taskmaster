@@ -7,6 +7,7 @@ from logs import logger
 
 HOST = '127.0.0.1'
 
+poweroff = False
 
 def log_error_and_return(errosst):
     logger.error(errosst)
@@ -20,7 +21,7 @@ class Daemon:
     async def processConsole(self, line):
         tokens = line.strip().split()
         if not tokens:
-            return log_errror_and_return("Empty command")
+            return log_error_and_return("Empty command")
 
         cmd = tokens[0].lower()
         arg = " ".join(tokens[1:]) if len(tokens) > 1 else None
@@ -43,8 +44,9 @@ class Daemon:
         elif cmd == "reload":
             self.taskMaster.updateParsing()
             return json.dumps({"status": "success", "message": "Configuration reloading starting"})
-        elif cmd == "exit":
+        elif cmd == "poweroff":
             await self.endProgram()
+            return json.dumps({"status": "success", "message": "Daemon turn off..."})
         else:
             return json.dumps({"status": "error", "message": "Unknown command"})
     
@@ -53,6 +55,7 @@ class Daemon:
         for proc in self.taskMaster.processes.values():
             proc.stopProcess()
         self.taskMaster.shutdown = True
+        poweroff = True
 
 async def handle_client(reader, writer, daemon):
     addr = writer.get_extra_info('peername')
@@ -83,8 +86,9 @@ async def process_command(data, daemon):
 
 async def per_frame_function(daemon):
     while True:
-        daemon.taskMaster.checkStatus()
-        await asyncio.sleep(0.1)  # Adjust the sleep for your timing needs
+        while poweroff == False:
+            daemon.taskMaster.checkStatus()
+            await asyncio.sleep(0.1)  # Adjust the sleep for your timing needs
 
 async def start_daemon(port, daemon):
     server = await asyncio.start_server(

@@ -1,4 +1,4 @@
-    #!/bin/python
+#!/bin/python
 import asyncio
 import socket
 import sys
@@ -9,17 +9,14 @@ from Daemonclass import Daemon, start_daemon
 from Taskmaster import TaskMaster
 
 if __name__ == "__main__":
-    """if len(sys.argv) != 2:
+    if len(sys.argv) != 2:
         print("Usage: python script.py <port>")
         sys.exit(1)
     try:
         port = int(sys.argv[1])
     except ValueError:
         print("Invalid port. Please enter a valid integer.")
-        sys.exit(1)"""
-
-    port = 7777
-    
+        sys.exit(1)
     # Create a TaskMaster instance which starts up the managed processes
     taskmaster = TaskMaster()
     daemon = Daemon(taskmaster)

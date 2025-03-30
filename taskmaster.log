@@ -1,0 +1,49 @@
+2025-03-30 12:40:52,681 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 12:40:52,681 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 12:40:52,682 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 12:40:52,682 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 12:40:52,683 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 12:40:52,684 - Taskmaster - DEBUG - ls1 changed status to RUNNING
+2025-03-30 12:40:52,784 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 12:41:05,463 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 12:41:05,463 - Taskmaster - DEBUG - Recieved command ls None
+2025-03-30 12:41:07,593 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 12:41:07,594 - Taskmaster - DEBUG - Recieved command help None
+2025-03-30 12:41:20,531 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 12:41:20,532 - Taskmaster - DEBUG - Recieved command status None
+2025-03-30 12:41:53,757 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 12:41:53,757 - Taskmaster - DEBUG - Recieved command status None
+2025-03-30 12:42:05,750 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 12:42:05,750 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 12:42:05,751 - Taskmaster - INFO - Starting shutdown
+2025-03-30 12:42:05,751 - Taskmaster - ERROR - Error handling client ('127.0.0.1', 36882): 'NoneType' object has no attribute 'encode'
+2025-03-30 12:52:58,691 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 12:52:58,691 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 12:52:58,692 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 12:52:58,693 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 12:52:58,693 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 12:52:58,694 - Taskmaster - DEBUG - ls1 changed status to RUNNING
+2025-03-30 12:52:58,794 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 12:53:01,659 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 12:53:01,659 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 12:53:01,660 - Taskmaster - INFO - Starting shutdown
+2025-03-30 12:55:39,457 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 12:55:39,457 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 12:55:39,458 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 12:55:39,458 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 12:55:39,459 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 12:55:39,460 - Taskmaster - DEBUG - ls1 changed status to RUNNING
+2025-03-30 12:55:39,560 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 12:55:42,539 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 12:55:42,539 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 12:55:42,540 - Taskmaster - INFO - Starting shutdown
+2025-03-30 12:56:27,886 - Taskmaster - DEBUG - setting staus of ls0 to STOPPED
+2025-03-30 12:56:27,886 - Taskmaster - DEBUG - setting staus of ls1 to STOPPED
+2025-03-30 12:56:27,886 - Taskmaster - DEBUG - ls0 changed status to STARTING
+2025-03-30 12:56:27,887 - Taskmaster - DEBUG - ls1 changed status to STARTING
+2025-03-30 12:56:27,888 - Taskmaster - DEBUG - ls0 changed status to STOPPED
+2025-03-30 12:56:27,888 - Taskmaster - DEBUG - ls1 changed status to RUNNING
+2025-03-30 12:56:27,989 - Taskmaster - DEBUG - ls1 changed status to STOPPED
+2025-03-30 12:56:30,902 - Taskmaster - DEBUG - Connected by {addr}
+2025-03-30 12:56:30,902 - Taskmaster - DEBUG - Recieved command poweroff None
+2025-03-30 12:56:30,902 - Taskmaster - INFO - Starting shutdown
