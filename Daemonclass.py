@@ -97,7 +97,10 @@ async def start_daemon(port, daemon):
 
     async with server:
         # Run both the server and the per-frame function concurrently
-        await asyncio.gather(
-            server.serve_forever(),
-            per_frame_function(daemon)
-        )
+        try:
+            await asyncio.gather(
+                server.serve_forever(),
+                per_frame_function(daemon)
+            )
+        except SystemExit as e:
+            print(f"Daemon shutting down: {e}")
