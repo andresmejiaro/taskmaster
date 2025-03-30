@@ -73,8 +73,7 @@ class Daemon:
 
 async def handle_client(reader, writer, daemon):
     addr = writer.get_extra_info('peername')
-    print(f"Connected by {addr}")
-    logger.debug("Connected by {addr}")
+    logger.debug(f"Connected by {addr}")
     try:
         data = await reader.read(1024)
         if data:
