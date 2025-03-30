@@ -88,11 +88,12 @@ async def per_frame_function(daemon):
     while True:
         while poweroff == False:
             daemon.taskMaster.checkStatus()
-            await asyncio.sleep(0.1)  # Adjust the sleep for your timing needs
+            await asyncio.sleep(0.1)
 
 async def start_daemon(port, daemon):
     server = await asyncio.start_server(
-        lambda r, w: handle_client(r, w, daemon), HOST, port)
+        lambda r, w: handle_client(r, w, daemon), HOST, port
+    )
     print(f"Listening on {HOST}:{port}...")
 
     async with server:
@@ -101,5 +102,9 @@ async def start_daemon(port, daemon):
                 server.serve_forever(),
                 per_frame_function(daemon)
             )
-        except SystemExit as e:
-            print(f"Daemon shutting down: {e}")
+        except asyncio.CancelledError:
+            print("Daemon shutting down: tasks cancelled.")
+        finally:
+            server.close()
+            await server.wait_closed()
+            print("Server closed cleanly.")

@@ -1,4 +1,5 @@
 import json
+import asyncio
 from configParsing import add_nprocs, updateParsing
 from ManagedProcess import ManagedProcess, ProcessStatus
 from logs import logger
@@ -56,7 +57,9 @@ class TaskMaster:
             v1 = [x.status in [ProcessStatus.CRASHED, ProcessStatus.STOPPED] for x in v]
             if all(v1):
                 logger.info("All processes down shutting down")
-                raise SystemExit(0)  
+                loop = asyncio.get_running_loop()
+                loop.stop()
+                #raise SystemExit(0)  
         return json.dumps({"status": "success", "message": f"{string}"})
 
     def stopProcessId(self, id):
