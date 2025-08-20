@@ -18,18 +18,23 @@
         "stdout": "/tmp/echo.out"
     },
     "touch" : {
-        "cmd": "/home/andres/taskmaster/simple_touch.sh",
-        "autostart" : true,
+        "cmd": "./simple_touch.sh",
+        "autostart" : false,
         "umask": "0777"
     },
-    "touch_me" : {
-        "cmd": "/home/andres/taskmaster/simple_touch.sh",
+    "touch_me_absolute_path" : {
+        "cmd": "/home/amejia/taskmaster/simple_touch.sh",
+        "autostart" : false,
+        "workingdir": "/tmp"
+    },
+    "touch_me_relative_nodir" : {
+        "cmd": "./simple_touch.sh",
         "autostart" : true,
         "workingdir": "/tmp"
     },
     "env": {
         "cmd": "./env.sh",
-        "autostart" : true,
+        "autostart" : false,
         "env": {
             "STARTED_BY": "taskmaster",
             "ANSWER": 42

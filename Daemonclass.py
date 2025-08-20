@@ -4,6 +4,7 @@ import sys
 from ManagedProcess import ManagedProcess, ProcessStatus
 from configParsing import add_nprocs
 from logs import logger
+import textwrap
 
 HOST = '127.0.0.1'
 
@@ -17,6 +18,36 @@ def log_error_and_return(errosst):
 class Daemon:
     def __init__(self, taskMaster):
         self.taskMaster = taskMaster
+        self.helpstring = textwrap.dedent("""\
+        Usage: command [args]
+
+        Available commands:
+
+        status                 Show the current status of all managed processes.
+
+        start <process_id>     Start the process with the given ID.
+                                Example: start webserver
+
+        stop <process_id>      Stop the process with the given ID.
+                                Example: stop webserver
+
+        restart <process_id>   Restart the process with the given ID.
+                                Example: restart webserver
+
+        reload                 Reload configuration without stopping the daemon.
+
+        reloads                Same as 'reload', typically triggered by SIGHUP.
+
+        poweroff               Gracefully shut down the daemon.
+
+        poweroffs              Same as 'poweroff', but signal-based (SIGTERM).
+
+        Notes:
+        - All commands are case-sensitive.
+        - <process_id> must be a valid identifier recognized by the task master.
+
+        """)
+
     
     async def processConsole(self, line):
         tokens = line.strip().split()
@@ -54,6 +85,8 @@ class Daemon:
             logger.info("SIGHUP recived")
             self.taskMaster.updateParsing()
             return json.dumps({"status": "success", "message": "Configuration reloading starting"})
+        elif cmd == "help":
+            return json.dumps({"status": "success", "message": self.helpstring})
         else:
             return json.dumps({"status": "error", "message": "Unknown command"})
 
